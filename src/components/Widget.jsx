@@ -5,7 +5,7 @@ import { Textarea } from "./ui/textarea";
 import { useState } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import tailwindStyles from "../index.css?inline";
-
+import supabase from "../supabaseClient";
 
 export const Widget = ({ projectId }) => {
   const [rating, setRating] = useState(3);
@@ -23,9 +23,10 @@ export const Widget = ({ projectId }) => {
       p_user_name: form.name.value,
       p_user_email: form.email.value,
       p_message: form.feedback.value,
-      p_rating: rating,
+      // p_rating: rating,
     };
     setSubmitted(true);
+    const { data: returnedData, error } = await supabase.rpc('add_feedback', data);
     console.log(returnedData);
   };
 
